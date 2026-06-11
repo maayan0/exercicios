@@ -3,8 +3,8 @@
 
 #define col 16
 #define lin 2
-#define ende 0x3F
-LiquidCrystal_I2C lcd(ende,16,2);
+#define ende 0x27;
+LiquidCrystal_I2C lcd(0x27,16,2);
 
 bool v = LOW;
 int valorBinario = 4095;
@@ -27,17 +27,19 @@ void loop() {
 
   // PRINT VALOR DA TENSAO DA BATERIA
   lcd.setCursor(0,0);
-  lcd.print("Tensao da Bateria: ");
+  lcd.print("Tensao: ");
   lcd.print(valorRealBateria, 1); // Exibe 1 casa decimal
   lcd.print("V ");
+
+  //PRINT PORCENTAGEM DA BATERIA
+  lcd.setCursor()
 
   // CASO 1 => BATERIA 8,4V - 8V --> 100%
   if (8.4 >= valorRealBateria && valorRealBateria > 8.0) {
     lcd.setCursor(0,1);
     lcd.print("Bateria: ");
     lcd.print(porcentagemBateria, 1);
-    lcd.println("%");
-    lcd.println("STATUS: OK - BATERIA SEGURA");
+    lcd.print("%");
   }
 
   // CASO 2 => BATERIA 8V - 7,4V --> 80%
@@ -45,8 +47,7 @@ void loop() {
     lcd.setCursor(0,1);
     lcd.print("Bateria: ");
     lcd.print(porcentagemBateria, 1);
-    lcd.println("%");
-    lcd.println("STATUS: OK - BATERIA SEGURA");
+    lcd.print("%");
   }
 
   // CASO 3 => BATERIA 7,4V - 6,8V --> 60%
@@ -54,8 +55,7 @@ void loop() {
     lcd.setCursor(0,1);
     lcd.print("Bateria: ");
     lcd.print(porcentagemBateria, 1);
-    lcd.println("%");
-    lcd.println("STATUS: ALERTA - BATERIA BAIXA");
+    lcd.print("%");
   }
 
   // CASO 4 => BATERIA 6,8V - 6,4V --> 20%
@@ -63,8 +63,7 @@ void loop() {
     lcd.setCursor(0,1);
     lcd.print("Bateria: ");
     lcd.print(porcentagemBateria, 1);
-    lcd.println("%");
-    lcd.println("STATUS: ALERTA - RECARREGAR BATERIA");
+    lcd.print("%");
   }
 
   // CASO 5 => BATERIA ABAIXO DE 6,4V --> 0%
@@ -72,8 +71,7 @@ void loop() {
     lcd.setCursor(0,1);
     lcd.print("Bateria: ");
     lcd.print(porcentagemBateria, 1);
-    lcd.println("%");
-    lcd.println("STATUS: CRITICO - BATERIA DANIFICADA");
+    lcd.print("%");
   }
 
   lcd.println();
@@ -88,7 +86,7 @@ void loop() {
     if(v == HIGH){ lcd.print("Bateria: "); lcd.print(valorRealBateria); lcd.println("%"); delay(1000); exit(0);}
   }
 
-  delay(3000);
+  delay(1000);
 
   lcd.clear();
 }
