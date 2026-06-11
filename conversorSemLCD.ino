@@ -1,11 +1,6 @@
-// VALOR 12BITS=>AR=>valorAnalog
-// VALOR REAL BATERIA => valorRealBateria
-
-#include <LiquidCrystal.h>
-
-// const int pinADC = 36;
-
-float valorRealBateria = 8.4;      // Valor inicial da simulação
+bool v = LOW;
+int valorBinario = 4095;
+float valorRealBateria = (valorBinario/475.5);      // Valor inicial da simulação
 float valorReferencia = 8.4;
 float porcentagemBateria;
 
@@ -67,12 +62,14 @@ void loop() {
   Serial.println();
 
   // Simulação: reduz 0,1 V por ciclo
-  valorRealBateria =- 0.1;
+  valorRealBateria -= 0.1;
 
   // Evita tensões negativas
-  if (valorRealBateria < 0.0) {
+  if (valorRealBateria <= 0.0) {
     valorRealBateria = 0.0;
+    v = HIGH;
+    if(v == HIGH){ Serial.print("Bateria: "); Serial.print(valorRealBateria); Serial.println("%"); delay(1000); exit(0);}
   }
 
-  delay(900);
+  delay(500);
 }
